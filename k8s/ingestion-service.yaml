@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ingestion-service
+  namespace: satish-k8s
+spec:
+  selector:
+    app: ingestion
+  ports:
+    - port: 8000
+      targetPort: 8000
+  type: ClusterIP
