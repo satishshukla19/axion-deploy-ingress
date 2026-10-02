@@ -46,32 +46,75 @@ pool: Default
   #                   containers: 'clusteraliregistry.azurecr.io/ingestion-service:$(Build.BuildId)'
 
 
+# stages:
+#   - stage: BuildImage
+#     displayName: Simulator Build Push
+#     jobs:
+#       - job: BuildAndPush
+#         displayName:  Build and push Simulator image
+#         steps:
+#         - checkout: self
+#         - task: Docker@2
+#           displayName: Build Simulator image
+#           inputs:
+#             containerRegistry: 'acr-service'
+#             repository: 'simulator-service'
+#             command: 'buildAndPush'
+#             Dockerfile: '$(Build.SourcesDirectory)/axion-data-simulator/Dockerfile'
+#             tags: |
+#               $(Build.BuildId)
+#               latest
+        
+#   - stage: 
+#     displayName: deploy Simulator to aks
+#     dependsOn: BuildImage
+#     condition: succeeded()
+#     jobs:
+#       - deployment: DiployISimulator
+#         displayName: deploy Simulator service
+#         environment: axion-deployemnt
+#         strategy:
+#          runOnce:
+#            deploy:
+#              steps:
+#                 - checkout: self
+#                 - task: KubernetesManifest@1
+#                   inputs:
+#                     action: 'deploy'
+#                     connectionType: 'kubernetesServiceConnection'
+#                     kubernetesServiceConnection: 'aks-service'
+#                     namespace: 'default'
+#                     manifests: |
+#                      $(Build.SourcesDirectory)/axion-data-simulator/simulator-deployment.yaml
+#                      $(Build.SourcesDirectory)/axion-data-simulator/simulator-service.yaml
+#                     containers: 'clusteraliregistry.azurecr.io/simulator-service:$(Build.BuildId)'
+
 stages:
   - stage: BuildImage
-    displayName: Simulator Build Push
+    displayName: Axion-ui Build Push
     jobs:
       - job: BuildAndPush
-        displayName:  Build and push Simulator image
+        displayName:  Build and push Axion-ui image
         steps:
         - checkout: self
         - task: Docker@2
-          displayName: Build Simulator image
+          displayName: Build Axion-ui image
           inputs:
             containerRegistry: 'acr-service'
-            repository: 'simulator-service'
+            repository: 'axion-ui-service'
             command: 'buildAndPush'
-            Dockerfile: '$(Build.SourcesDirectory)/axion-data-simulator/Dockerfile'
+            Dockerfile: '$(Build.SourcesDirectory)/axion-ui/Dockerfile'
             tags: |
               $(Build.BuildId)
               latest
         
   - stage: 
-    displayName: deploy Simulator to aks
+    displayName: deploy Axion-ui to aks
     dependsOn: BuildImage
     condition: succeeded()
     jobs:
-      - deployment: DiployISimulator
-        displayName: deploy Simulator service
+      - deployment: DiployAxionui
+        displayName: deploy Axion-ui service
         environment: axion-deployemnt
         strategy:
          runOnce:
@@ -85,6 +128,6 @@ stages:
                     kubernetesServiceConnection: 'aks-service'
                     namespace: 'default'
                     manifests: |
-                     $(Build.SourcesDirectory)/axion-data-simulator/simulator-deployment.yaml
-                     $(Build.SourcesDirectory)/axion-data-simulator/simulator-service.yaml
-                    containers: 'clusteraliregistry.azurecr.io/simulator-service:$(Build.BuildId)'
+                     $(Build.SourcesDirectory)/axion-ui/axion-ui-deployment.yaml
+                     $(Build.SourcesDirectory)/axion-ui/axion-ui-service.yaml
+                    containers: 'clusteraliregistry.azurecr.io/axion-ui-service:$(Build.BuildId)'
