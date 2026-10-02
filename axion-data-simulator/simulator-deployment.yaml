@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ingestion
-  namespace: satish-k8s
+  name: simulator
+  # namespace: satish-k8s
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: ingestion
+      app: simulator
   template:
     metadata:
       labels:
-        app: ingestion
+        app: simulator
     spec:
       containers:
-        - name: ingestion
-          image: clusteraliregistry.azurecr.io/ingestion:v1
+        - name: simulator
+          image: clusteraliregistry.azurecr.io/simulator:v1
           imagePullPolicy: IfNotPresent
           ports:
-            - containerPort: 8000
+            - containerPort: 8088
