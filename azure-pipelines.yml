@@ -9,12 +9,13 @@ stages:
       - job:
         displayName: Ingress deployment 
         steps:
+
+    
         - task: KubernetesManifest@1
           displayName: "Deploy Ingress"
           inputs:
             action: 'deploy'
             connectionType: 'kubernetesServiceConnection'
             kubernetesServiceConnection: 'aks-service'
-            manifests: | 
-             $(Build.SourcesDirectory)/k8s/ingress.yaml
+            manifests: '$(Build.SourcesDirectory)/axion-deploy-ingress /ingress.yaml'
         
