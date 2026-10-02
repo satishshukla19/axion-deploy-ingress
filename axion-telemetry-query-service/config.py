@@ -11,7 +11,7 @@ class Settings:
     # Format: postgresql://<user>:<password>@<host>:<port>/<database>
     DATABASE_URL: str = os.getenv(
         "DATABASE_URL",
-        "postgresql://postgres:postgres@postgres-service:5432/axiondb",
+        "postgresql://postgresadmin:airtel%40123@postgres-axion1.postgres.database.azure.com:5432/axionDB",
     )
     # Allows configuring a different port, e.g., if we run multiple services
     PORT: int = int(os.getenv("PORT", "8000"))
