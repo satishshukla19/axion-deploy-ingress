@@ -4,37 +4,37 @@ trigger:
 pool: Default
 
 stages:
-  # - stage: 
-  #   displayName: Aks ingress deploy
-  #   jobs:
-  #     - job:
-  #       displayName: Ingress deployment 
-  #       steps:
-  #       - checkout: self
-  #       - task: KubernetesManifest@1
-  #         displayName: "Deploy Ingress"
-  #         inputs:
-  #           action: 'deploy'
-  #           connectionType: 'kubernetesServiceConnection'
-  #           kubernetesServiceConnection: 'aks-service'
-  #           manifests: '$(Build.SourcesDirectory)/ingress.yaml'
-
   - stage: 
-    displayName: Ingestion Build Push
+    displayName: Aks ingress deploy
     jobs:
-      - job: BuildAndPush
-        displayName:  Build and push ingestion image
+      - job:
+        displayName: Ingress deployment 
         steps:
         - checkout: self
-        - task: Docker@2
-          displayName: Build ingestion image
+        - task: KubernetesManifest@1
+          displayName: "Deploy Ingress"
           inputs:
-            containerRegistry: 'acr-service'
-            repository: 'ingestion-service'
-            command: 'buildAndPush'
-            Dockerfile: "$(Build.SourcesDirectory)/axion-ingestion-service/Dockerfile"
-            tags: |
-              $(Build.BuildId)
-              latest
+            action: 'deploy'
+            connectionType: 'kubernetesServiceConnection'
+            kubernetesServiceConnection: 'aks-service'
+            manifests: '$(Build.SourcesDirectory)/ingress.yaml'
+
+  # - stage: 
+  #   displayName: Ingestion Build Push
+  #   jobs:
+  #     - job: BuildAndPush
+  #       displayName:  Build and push ingestion image
+  #       steps:
+  #       - checkout: self
+  #       - task: Docker@2
+  #         displayName: Build ingestion image
+  #         inputs:
+  #           containerRegistry: 'acr-service'
+  #           repository: 'ingestion-service'
+  #           command: 'buildAndPush'
+  #           Dockerfile: "$(Build.SourcesDirectory)/axion-ingestion-service/Dockerfile"
+  #           tags: |
+  #             $(Build.BuildId)
+  #             latest
          
         
