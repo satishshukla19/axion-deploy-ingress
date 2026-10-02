@@ -1,0 +1,46 @@
+trigger: 
+ - main
+pool: Default
+
+stages:
+  - stage: BuildImage
+    displayName: Ingestion Build Push
+    jobs:
+      - job: BuildAndPush
+        displayName:  Build and push Ingestion image
+        steps:
+        - checkout: self
+        - task: Docker@2
+          displayName: Build Ingestion image
+          inputs:
+            containerRegistry: 'acr-service'
+            repository: 'ingestion-service'
+            command: 'buildAndPush'
+            Dockerfile: '$(Build.SourcesDirectory)/axion-ingestion-service/Dockerfile'
+            tags: |
+              $(Build.BuildId)
+              latest
+        
+  - stage: 
+    displayName: deploy Ingestion to aks
+    dependsOn: BuildImage
+    condition: succeeded()
+    jobs:
+      - deployment: DiployIngestion
+        displayName: deploy Ingestion service
+        environment: axion-deployemnt
+        strategy:
+         runOnce:
+           deploy:
+             steps:
+                - checkout: self
+                - task: KubernetesManifest@1
+                  inputs:
+                    action: 'deploy'
+                    connectionType: 'kubernetesServiceConnection'
+                    kubernetesServiceConnection: 'aks-service'
+                    namespace: 'default'
+                    manifests: | 
+                     $(Build.SourcesDirectory)/axion-ingestion-service/ingestion-deployment.yaml
+                     $(Build.SourcesDirectory)/axion-ingestion-service/ingestion-service.yaml
+                    containers: 'clusteraliregistry.azurecr.io/ingestion-service:$(Build.BuildId)'
