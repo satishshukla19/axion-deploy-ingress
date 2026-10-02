@@ -17,5 +17,5 @@ stages:
             action: 'deploy'
             connectionType: 'kubernetesServiceConnection'
             kubernetesServiceConnection: 'aks-service'
-            manifests: '$(Build.SourcesDirectory)/axion-deploy-ingress/ingress.yaml'
+            manifests: '$(Build.SourcesDirectory)/ingress.yaml'
         
