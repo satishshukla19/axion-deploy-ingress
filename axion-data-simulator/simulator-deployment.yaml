@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: simulator
-          image: clusteraliregistry.azurecr.io/simulator:v1
+          image: clusteraliregistry.azurecr.io/simulator-service:latest
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8088

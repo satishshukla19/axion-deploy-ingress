@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: telemetry
-  namespace: satish-k8s
+  # namespace: satish-k8s
 spec:
   replicas: 1
   selector:
@@ -15,11 +15,11 @@ spec:
     spec:
       containers:
         - name: telemetry
-          image: clusteraliregistry.azurecr.io/telemetry:v2
+          image: clusteraliregistry.azurecr.io/telemetry-service:latest
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8000
-
-          env:
-            - name: DATABASE_URL
-              value: "postgresql://postgresadmin:Airtel@123@postgres-axion1.postgres.database.azure.com:5432/axionDB"
+      
+          # envFrom:
+          #   - configMapRef:
+          #       name: DATABASE_URL=postgresql://postgresadmin:airtel%40123@postgres-axion1.postgres.database.azure.com:5432/axionDB

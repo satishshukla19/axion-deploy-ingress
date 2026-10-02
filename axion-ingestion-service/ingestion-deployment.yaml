@@ -19,12 +19,12 @@ spec:
     spec:
       containers:
         - name: ingestion
-          image: clusteraliregistry.azurecr.io/ingestion:v1
+          image: clusteraliregistry.azurecr.io/ingestion-service:latest
           imagePullPolicy: IfNotPresent
 
           ports:
             - containerPort: 8000
 
-          env:
-            - name: DATABASE_URL
-              value: "postgresql://postgresadmin:Airtel@123@postgres-axion1.postgres.database.azure.com:5432/axionDB"
+          # env:
+          #   - name: DATABASE_URL
+          #     value: "postgresql://postgresadmin:airtel%40123@postgres-axion1.postgres.database.azure.com:5432/axionDB"
