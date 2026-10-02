@@ -3,19 +3,28 @@ kind: Deployment
 metadata:
   name: ingestion
   # namespace: satish-k8s
+
 spec:
   replicas: 1
+
   selector:
     matchLabels:
       app: ingestion
+
   template:
     metadata:
       labels:
         app: ingestion
+
     spec:
       containers:
         - name: ingestion
           image: clusteraliregistry.azurecr.io/ingestion:v1
           imagePullPolicy: IfNotPresent
+
           ports:
             - containerPort: 8000
+
+          env:
+            - name: DATABASE_URL
+              value: "postgresql://postgresadmin:Airtel@123@postgres-axion1.postgres.database.azure.com:5432/axionDB"
