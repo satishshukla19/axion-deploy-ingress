@@ -107,7 +107,7 @@ stages:
             tags: |
               $(Build.BuildId)
               latest
-        
+     
   - stage: 
     displayName: deploy Axion-ui to aks
     dependsOn: BuildImage
